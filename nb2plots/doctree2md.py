@@ -271,9 +271,69 @@ class Translator(nodes.NodeVisitor):
         text = node.astext()
         if self._escape_text:
             text = self.escape_chars(text)
+
+        # Reformat sphinx parameters and return values
+        text = text.replace('\n\n:param ', '\n\n**Parameters**\n\n* ')
+        text = text.replace(':param ', '* ')
+        text = text.replace('\n:return: ', '\n\n**Returns**\n\n* ')
         self.add(text)
 
     def depart_Text(self, node):
+        pass
+
+    def visit_desc(self, node):
+        pass
+
+    def depart_desc(self, node):
+        pass
+
+    def visit_desc_signature(self, node):
+        self.add('> ')
+
+    def depart_desc_signature(self, node):
+        self.ensure_eol()
+        self.add('\n')
+
+    def visit_desc_annotation(self, node):
+        pass
+
+    def depart_desc_annotation(self, node):
+        pass
+
+    def visit_desc_addname(self, node):
+        self.add('**')
+
+    def depart_desc_addname(self, node):
+        self.add('**')
+
+    def visit_desc_name(self, node):
+        self.add('**')
+
+    def depart_desc_name(self, node):
+        self.add('**')
+
+    def visit_desc_parameterlist(self, node):
+        self.add('(')
+
+    def depart_desc_parameterlist(self, node):
+        self.add(')')
+
+    def visit_desc_parameter(self, node):
+        pass
+
+    def depart_desc_parameter(self, node):
+        self.add(', ')
+
+    def visit_title_reference(self, node):
+        pass
+
+    def depart_title_reference(self, node):
+        pass
+
+    def visit_desc_content(self, node):
+        pass
+
+    def depart_desc_content(self, node):
         pass
 
     def visit_comment(self, node):
